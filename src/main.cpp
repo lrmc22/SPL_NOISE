@@ -17,7 +17,7 @@ const char* mqttServer  = "192.168.1.78"; //RPI MQTT Server IP
 bool status;
 
 // MQTT Topic
-const char* temperatureTopic = "/senso-care/sensors/SPLdB-superesp8266";
+const char* splTopic = "/senso-care/sensors/SPLdB-superesp8266";
 
 //Our two communicating objects in MQTT
 WiFiClient espClient;
@@ -150,6 +150,6 @@ void loop()
    Serial.println(volts);
    Serial.print("SPL : "); 
    Serial.println(dBVal);
-   sendSerialised(volts,temperatureTopic);
+   sendSerialised(volts,splTopic);
    delay(500);
 }
