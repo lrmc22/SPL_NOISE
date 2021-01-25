@@ -141,15 +141,13 @@ void loop()
    }
    peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
    double volts = 0.0;
-   volts = map(volts,0,2*peakToPeak,0,1024);
-   //double volts = (peakToPeak * 3.3) / 1024;  // convert to volts here we use a 3.3v power supply
-   //94 db --> une pression acoustique efficace de 1 pA equivaut à 94dB SPL (Sound Pressure Level)
+   volts = (peakToPeak* 3.3) / 1024;  // convert to volts here we use a 3.3v power supply
+   //94 db --> une pression acoustique efficace de 1 pA equivaut à 94dB SPL(Sound Pressure Level)    
    int dBVal = 94 + 20*log10(volts/1.58); 
-   
    Serial.print("voltage : "); 
    Serial.println(volts);
    Serial.print("SPL : "); 
    Serial.println(dBVal);
-   sendSerialised(volts,splTopic);
    delay(500);
+   //sendSerialised(volts,splTopic);
 }
