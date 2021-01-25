@@ -148,6 +148,6 @@ void loop()
    Serial.println(volts);
    Serial.print("SPL : "); 
    Serial.println(dBVal);
+   sendSerialised(volts,splTopic); 
    delay(500);
-   //sendSerialised(volts,splTopic);
 }
