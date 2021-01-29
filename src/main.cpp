@@ -26,6 +26,8 @@ PubSubClient client(espClient);
 //VPP variables 
 const int sampleWindow = 50; // Sample window width in mS (50 mS = 20Hz) 
 unsigned int sample;
+
+long startMillis = millis();
  
  //Sent parameters
  void sendSerialised(float value, const char* topic)
@@ -55,10 +57,6 @@ unsigned int sample;
   // Envoyer le buffer
   client.publish(topic, (char*)buffer);
   */
-}
-void setup() 
-{
-   Serial.begin(115200);
 }
 void wifiSetup()
 {
@@ -115,6 +113,10 @@ void reconnect() {
     }
   }
 }
+void setup() 
+{
+   Serial.begin(115200);
+}
 void loop() 
 {
    unsigned long startMillis= millis();  // Start of sample window
@@ -141,13 +143,23 @@ void loop()
    }
    peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
    double volts = 0.0;
-   volts = (peakToPeak* 3.3) / 1024;  // convert to volts here we use a 3.3v power supply
+   volts = (peakToPeak * 3.3 /1024)*10;  // convert to volts here we use a 3.3v power supply
    //94 db --> une pression acoustique efficace de 1 pA equivaut à 94dB SPL(Sound Pressure Level)    
-   int dBVal = 94 + 20*log10(volts/1.58); 
-   Serial.print("voltage : "); 
+   //-44 dB sensibilité du micro , 60 est le gain de notre capteur
+  double dBVal = 20*log10(volts/0.00631); 
+  double dBSPL = dBVal + 94 - 44 - 60;
+
+
+   Serial.print("dbv : "); 
    Serial.println(volts);
    Serial.print("SPL : "); 
-   Serial.println(dBVal);
-   sendSerialised(volts,splTopic); 
+   Serial.println(dBSPL);
+
+   if(startMillis - millis() > 360000)
+   {
+     sendSerialised(volts,splTopic); 
+     startMillis = millis();
+   }
+   
    delay(500);
 }
