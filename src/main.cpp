@@ -9,9 +9,9 @@
 #include "interface.pb.h"
 
 //Router parameters
-const char *ssid = "Bbox-8884FC0B";                      // Enter your WiFi name
-const char *password = "A5C5CCF55EA9EA45C2ACCF259E21EC"; // Enter WiFi password
-const char *mqttServer = "192.168.1.69";                 //RPI MQTT Server IP
+const char *ssid        = "";                      // Enter your WiFi name
+const char *password    = ""; // Enter WiFi password
+const char *mqttServer  = "";                 //RPI MQTT Server IP
 
 //PB variables
 bool status;
